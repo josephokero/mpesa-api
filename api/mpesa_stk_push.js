@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
       PartyA: phone,
       PartyB: MPESA_CONFIG.shortCode,
       PhoneNumber: phone,
-      CallBackURL: `${process.env.VERCEL_URL || 'https://sureboda-mpesa.vercel.app'}/api/mpesa_callback`,
+      CallBackURL: 'https://mpesa-api-sureboda.vercel.app/api/mpesa_callback',
       AccountReference: accountReference || 'SUREBODA',
       TransactionDesc: transactionDesc || 'Payment',
     };
