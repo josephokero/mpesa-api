@@ -4,6 +4,7 @@ const MPESA_CONFIG = {
   consumerKey: process.env.MPESA_CONSUMER_KEY || 'ZQp50qtvMb0GmTAghhQgnRpPsywr8dJbPbHCPNYhmtE9KO80',
   consumerSecret: process.env.MPESA_CONSUMER_SECRET || 'yJqm1QE8uOGJaJjSU6ePRgwRlWlITmbF7amWxX6wNEQyUpPALL3SbgFkohTSmHjt',
   shortCode: process.env.MPESA_SHORTCODE || '8499486',
+  tillNumber: process.env.MPESA_TILL || '6955822',
   passKey: process.env.MPESA_PASSKEY || '82d0342a54624998fb5e2d6f907ad30a0b19fc86cc41aef0c63c95fcb45d2103',
   productionUrl: 'https://api.safaricom.co.ke',
 };
@@ -60,13 +61,13 @@ module.exports = async (req, res) => {
       BusinessShortCode: MPESA_CONFIG.shortCode,
       Password: password,
       Timestamp: timestamp,
-      TransactionType: 'CustomerPayBillOnline',
+      TransactionType: 'CustomerBuyGoodsOnline',
       Amount: Math.round(amount),
       PartyA: phone,
-      PartyB: MPESA_CONFIG.shortCode,
+      PartyB: MPESA_CONFIG.tillNumber,
       PhoneNumber: phone,
-      CallBackURL: 'https://mpesa-api-sureboda.vercel.app/api/mpesa_callback',
-      AccountReference: accountReference || 'SUREBODA',
+      CallBackURL: 'https://mpesa-api-six.vercel.app/api/mpesa_callback',
+      AccountReference: 'astutepromusic',
       TransactionDesc: transactionDesc || 'Payment',
     };
 
