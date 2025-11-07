@@ -41,9 +41,12 @@ module.exports = async (req, res) => {
 
       console.log('Payment successful:', { amount, mpesaReceiptNumber, phoneNumber });
 
-      // TODO: Find user by phone number and update wallet
-      // For now, we'll just save the transaction
-      // You need to add logic to match phone number to userId
+      // Extract userId from CheckoutRequestID or lookup by phone
+      // The STK Push request should include AccountReference as 'WALLET-{userId}'
+      let userId = null;
+      
+      // Try to find matching pending STK request (would need to store this)
+      // For now, we'll save without userId and let Flutter app match by checkoutRequestId
       
       // Save transaction to Firestore
       await db.collection('transactions').add({
@@ -58,6 +61,7 @@ module.exports = async (req, res) => {
         description: 'M-Pesa Wallet Top-Up',
         resultCode: ResultCode,
         resultDesc: ResultDesc,
+        // userId will be matched by Flutter app using checkoutRequestId
       });
 
       console.log('Transaction saved successfully');
