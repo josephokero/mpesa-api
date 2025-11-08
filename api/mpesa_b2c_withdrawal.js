@@ -16,8 +16,8 @@ const MPESA_CONFIG = {
   consumerSecret: process.env.MPESA_CONSUMER_SECRET || 'yJqm1QE8uOGJaJjSU6ePRgwRlWlITmbF7amWxX6wNEQyUpPALL3SbgFkohTSmHjt',
   shortCode: process.env.MPESA_B2C_SHORTCODE || '8499486',
   initiatorName: process.env.MPESA_INITIATOR_NAME || 'testapi',
-  securityCredential: process.env.MPESA_SECURITY_CREDENTIAL || 'Your_Security_Credential_Here',
-  isProduction: process.env.MPESA_ENV === 'production' || true,
+  securityCredential: process.env.MPESA_SECURITY_CREDENTIAL || 'Safaricom999!*!',
+  isProduction: process.env.MPESA_ENV === 'production',
   sandboxUrl: 'https://sandbox.safaricom.co.ke',
   productionUrl: 'https://api.safaricom.co.ke',
   callbackUrl: process.env.MPESA_B2C_CALLBACK_URL || 'https://mpesa-api-six.vercel.app/api/mpesa_b2c_callback',
@@ -29,6 +29,9 @@ const BASE_URL = MPESA_CONFIG.isProduction ? MPESA_CONFIG.productionUrl : MPESA_
 // Generate OAuth Access Token
 async function getAccessToken() {
   try {
+    console.log(`🔑 Getting OAuth token from: ${BASE_URL}/oauth/v1/generate`);
+    console.log(`Environment: ${MPESA_CONFIG.isProduction ? 'PRODUCTION' : 'SANDBOX'}`);
+    
     const auth = Buffer.from(
       `${MPESA_CONFIG.consumerKey}:${MPESA_CONFIG.consumerSecret}`
     ).toString('base64');
@@ -42,10 +45,11 @@ async function getAccessToken() {
       }
     );
 
+    console.log('✅ Access token obtained successfully');
     return response.data.access_token;
   } catch (error) {
-    console.error('Error getting access token:', error.response?.data || error.message);
-    throw new Error('Failed to get M-Pesa access token');
+    console.error('❌ Error getting access token:', error.response?.data || error.message);
+    throw new Error('Failed to get M-Pesa access token: ' + (error.response?.data?.errorMessage || error.message));
   }
 }
 
