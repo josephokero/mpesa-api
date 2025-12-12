@@ -1,0 +1,65 @@
+/* f:\surebodaswipe\src\AuthForm.module.css */
+
+@keyframes cardPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes iconWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+.apkCard {
+  max-width: 400px;
+  margin: 40px auto 28px auto;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f7fe 100%);
+  box-shadow: 0 10px 35px rgba(0, 124, 145, 0.15);
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  border: 1px solid white;
+}
+
+.apkCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 45px rgba(0, 124, 145, 0.2);
+}
+
+.apkCard:hover .icon {
+  animation: iconWiggle 0.5s ease-in-out;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #007c91;
+  margin: 10px 0 5px 0;
+}
+
+.description {
+  color: #37474f;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.downloadText {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #00acc1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.apkCard:hover .downloadText {
+  color: #007bff;
+}

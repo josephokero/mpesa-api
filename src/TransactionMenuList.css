@@ -1,0 +1,116 @@
+.transaction-menu-list {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 24px;
+  margin: 24px 0;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.transaction-menu-list h2 {
+  margin-bottom: 16px;
+}
+.transaction-menu-list .controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.transaction-menu-list input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.transaction-menu-list button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.transaction-menu-list button:hover {
+  background: #0056b3;
+}
+.transaction-menu-list table {
+  width: 100%;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  font-size: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #1976d2 #e3f2fd;
+}
+/* Custom scrollbar for webkit browsers */
+.transaction-menu-list table::-webkit-scrollbar {
+  height: 8px;
+}
+.transaction-menu-list table::-webkit-scrollbar-thumb {
+  background: #1976d2;
+  border-radius: 4px;
+}
+.transaction-menu-list table::-webkit-scrollbar-track {
+  background: #e3f2fd;
+  border-radius: 4px;
+}
+.transaction-menu-list th, .transaction-menu-list td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  min-width: 120px;
+}
+.transaction-menu-list tr.completed td {
+  color: #28a745;
+}
+.transaction-menu-list tr.pending td {
+  color: #ffc107;
+}
+.transaction-menu-list tr.failed td {
+  color: #dc3545;
+}
+
+@media (max-width: 900px) {
+  .transaction-menu-list {
+    padding: 12px;
+    border-radius: 8px;
+    margin: 16px 0;
+    max-width: 98vw;
+  }
+  .transaction-menu-list h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  .transaction-menu-list table {
+    font-size: 14px;
+  }
+  .transaction-menu-list th, .transaction-menu-list td {
+    padding: 8px;
+    min-width: 90px;
+  }
+}
+
+@media (max-width: 600px) {
+  .transaction-menu-list {
+    padding: 6px;
+    border-radius: 6px;
+    margin: 8px 0;
+    max-width: 100vw;
+  }
+  .transaction-menu-list h2 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .transaction-menu-list table {
+    font-size: 12px;
+  }
+  .transaction-menu-list th, .transaction-menu-list td {
+    padding: 6px;
+    min-width: 70px;
+  }
+  .transaction-menu-list .controls {
+    gap: 6px;
+  }
+}

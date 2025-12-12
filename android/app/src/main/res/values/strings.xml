@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SureBodaAdmin</string>
+    <string name="title_activity_main">SureBodaAdmin</string>
+    <string name="package_name">com.sureboda.admin</string>
+    <string name="custom_url_scheme">com.sureboda.admin</string>
+</resources>
