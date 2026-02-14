@@ -1,6 +1,18 @@
 // Twilio SMS API - Send Messages
 const https = require('https');
 
+// Helper to parse body if not already parsed
+function parseBody(req) {
+  if (typeof req.body === 'object' && req.body !== null) {
+    return req.body;
+  }
+  try {
+    return JSON.parse(req.body || '{}');
+  } catch (e) {
+    return {};
+  }
+}
+
 // Vercel serverless function handler
 module.exports = async (req, res) => {
   // Enable CORS
@@ -17,10 +29,11 @@ module.exports = async (req, res) => {
   }
   
   try {
-    const { phone, message } = req.body;
+    const body = parseBody(req);
+    const { phone, message } = body;
     
     if (!phone) {
-      return res.status(400).json({ error: 'Phone number is required' });
+      return res.status(400).json({ error: 'Phone number is required', receivedBody: typeof req.body });
     }
     
     if (!message) {
