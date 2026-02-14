@@ -49,10 +49,10 @@ module.exports = async (req, res) => {
     // Twilio credentials (set in Vercel environment variables)
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
-    const twilioPhone = process.env.TWILIO_PHONE_NUMBER;
+    const messagingServiceSid = process.env.TWILIO_MESSAGING_SERVICE_SID;
     
     // Check if credentials are configured
-    if (!accountSid || !authToken || !twilioPhone) {
+    if (!accountSid || !authToken || !messagingServiceSid) {
       // DEMO MODE - just log and return success
       console.log('SMS (Demo Mode):', { to: formattedPhone, message: message.substring(0, 50) + '...' });
       return res.status(200).json({
@@ -63,10 +63,10 @@ module.exports = async (req, res) => {
       });
     }
     
-    // Send SMS via Twilio
+    // Send SMS via Twilio using Messaging Service
     const postData = new URLSearchParams({
       To: formattedPhone,
-      From: twilioPhone,
+      MessagingServiceSid: messagingServiceSid,
       Body: message
     }).toString();
     
