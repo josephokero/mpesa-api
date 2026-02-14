@@ -1,4 +1,4 @@
-// Twilio Verify SMS API
+// Twilio Verify API (SMS & Email)
 const https = require('https');
 
 // Vercel serverless function handler
@@ -17,16 +17,25 @@ module.exports = async (req, res) => {
   }
   
   try {
-    const { phone, action, code } = req.body;
+    const { phone, email, action, code, channel } = req.body;
+    const verifyChannel = channel || 'sms'; // 'sms' or 'email'
     
-    if (!phone) {
-      return res.status(400).json({ error: 'Phone number is required' });
-    }
-    
-    // Format phone number (ensure it starts with +)
-    let formattedPhone = phone.replace(/[^\d+]/g, '');
-    if (!formattedPhone.startsWith('+')) {
-      formattedPhone = '+' + formattedPhone;
+    // Determine recipient based on channel
+    let recipient;
+    if (verifyChannel === 'email') {
+      if (!email) {
+        return res.status(400).json({ error: 'Email is required for email verification' });
+      }
+      recipient = email;
+    } else {
+      if (!phone) {
+        return res.status(400).json({ error: 'Phone number is required' });
+      }
+      // Format phone number (ensure it starts with +)
+      recipient = phone.replace(/[^\d+]/g, '');
+      if (!recipient.startsWith('+')) {
+        recipient = '+' + recipient;
+      }
     }
     
     // Twilio credentials (set in Vercel environment variables)
@@ -42,7 +51,7 @@ module.exports = async (req, res) => {
           return res.status(200).json({
             success: true,
             status: 'approved',
-            message: 'Phone verified (demo mode)'
+            message: `${verifyChannel === 'email' ? 'Email' : 'Phone'} verified (demo mode)`
           });
         }
         return res.status(200).json({
@@ -56,7 +65,8 @@ module.exports = async (req, res) => {
         demo: true,
         demoCode: '123456',
         message: 'Demo mode: Use code 123456',
-        phone: formattedPhone
+        recipient: recipient,
+        channel: verifyChannel
       });
     }
     
@@ -68,7 +78,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Verification code is required' });
       }
       
-      const checkData = `To=${encodeURIComponent(formattedPhone)}&Code=${code}`;
+      const checkData = `To=${encodeURIComponent(recipient)}&Code=${code}`;
       
       const checkResult = await makeRequest(
         'verify.twilio.com',
@@ -83,7 +93,7 @@ module.exports = async (req, res) => {
         return res.status(200).json({
           success: true,
           status: 'approved',
-          message: 'Phone verified successfully!'
+          message: `${verifyChannel === 'email' ? 'Email' : 'Phone'} verified successfully!`
         });
       } else {
         return res.status(200).json({
@@ -95,7 +105,7 @@ module.exports = async (req, res) => {
       
     } else {
       // Send verification code
-      const sendData = `To=${encodeURIComponent(formattedPhone)}&Channel=sms`;
+      const sendData = `To=${encodeURIComponent(recipient)}&Channel=${verifyChannel}`;
       
       const sendResult = await makeRequest(
         'verify.twilio.com',
@@ -110,8 +120,9 @@ module.exports = async (req, res) => {
         return res.status(200).json({
           success: true,
           status: 'pending',
-          message: 'Verification code sent!',
-          phone: formattedPhone
+          message: `Verification code sent via ${verifyChannel}!`,
+          recipient: recipient,
+          channel: verifyChannel
         });
       } else {
         return res.status(200).json({
@@ -123,7 +134,7 @@ module.exports = async (req, res) => {
     }
     
   } catch (error) {
-    console.error('SMS Error:', error);
+    console.error('Verification Error:', error);
     return res.status(500).json({
       error: 'Failed to process verification',
       details: error.message
