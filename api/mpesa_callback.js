@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 // Firestore REST API (no Firebase Admin SDK needed)
+// Payment transactions are stored in astute-empire project
 const FIRESTORE_PROJECT_ID = 'astute-empire';
 const FIRESTORE_API = `https://firestore.googleapis.com/v1/projects/${FIRESTORE_PROJECT_ID}/databases/(default)/documents`;
 
